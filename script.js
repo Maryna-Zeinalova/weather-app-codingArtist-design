@@ -3,10 +3,10 @@ function search() {
   const key = "bc0f4a715b0f4da387a93332230204";
   const city = document.getElementById("input");
   const url = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${city.value}&aqi=yes`;
-  axios
-    .get(url)
-    .then((response) => {
-      showWeather(response.data);
+  fetch(url)
+    .then((resp) => resp.json())
+    .then((data) => {
+      showWeather(data);
     })
     .catch(() => {
       showError();
@@ -46,8 +46,10 @@ function showWeatherInCurrentPlace(position) {
   const longtitude = position.coords.longitude;
   const key = "bc0f4a715b0f4da387a93332230204";
   const url = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${latitude},${longtitude}&aqi=yes`;
-  axios.get(url).then((response) => {
-    showWeather(response.data);
-  });
+  fetch(url)
+    .then((resp) => resp.json())
+    .then((data) => {
+      showWeather(data);
+    })
 }
 navigator.geolocation.getCurrentPosition(showWeatherInCurrentPlace);
